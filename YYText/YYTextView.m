@@ -589,7 +589,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
   CGRect rect;
   if (_selectionView.caretVisible) {
     rect = _selectionView.caretView.frame;
-  } else if (_selectionView.selectionRects.count > 0) {
+  }
+  else if (_selectionView.selectionRects.count > 0) {
     YYTextSelectionRect *sRect = _selectionView.selectionRects.firstObject;
     rect = sRect.rect;
     for (NSUInteger i = 1; i < _selectionView.selectionRects.count; i++) {
@@ -611,6 +612,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     }
     
     YYTextKeyboardManager *mgr = [YYTextKeyboardManager defaultManager];
+    
     if (mgr.keyboardVisible) {
       CGRect kbRect = [mgr convertRect:mgr.keyboardFrame toView:self];
       CGRect kbInter = CGRectIntersection(rect, kbRect);
@@ -624,7 +626,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         }
       }
     }
-  } else {
+  }
+  else {
     rect = _selectionView.bounds;
   }
   
@@ -3691,6 +3694,22 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 - (NSInteger)characterOffsetOfPosition:(YYTextPosition *)position withinRange:(YYTextRange *)range {
   return position ? position.offset : NSNotFound;
 }
+
+#pragma mark - Dark mode Adapter
+
+#ifdef __IPHONE_13_0
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    if (@available(iOS 13.0, *)) {
+        if([UITraitCollection.currentTraitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
+            [self _commitUpdate];
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+}
+#endif
 
 @end
 
