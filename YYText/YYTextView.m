@@ -3699,15 +3699,11 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 
 #ifdef __IPHONE_13_0
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [super traitCollectionDidChange:previousTraitCollection];
-    
-    if (@available(iOS 13.0, *)) {
-        if([UITraitCollection.currentTraitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
-            [self _commitUpdate];
-        }
-    } else {
-        // Fallback on earlier versions
-    }
+  [super traitCollectionDidChange:previousTraitCollection];
+  
+  if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+    [self _commitUpdate];
+  }
 }
 #endif
 
