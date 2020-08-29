@@ -206,6 +206,30 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 #pragma mark - @protocol UITextInput optional
 @synthesize selectionAffinity = _selectionAffinity;
 
+- (void)addSubview:(UIView *)view {
+    [super addSubview:view];
+    if(view &&
+       ([view isKindOfClass:NSClassFromString(@"UITextSelectionView")] || [view isKindOfClass:NSClassFromString(@"UISelectionGrabberDot")])) {
+        view.hidden = YES;
+    }
+    
+    //解决蓝点问题
+    Class Cls_selectionGrabberDot = NSClassFromString(@"UISelectionGrabberDot");
+    if (view && [view isKindOfClass:[Cls_selectionGrabberDot class]]) {
+        view.backgroundColor = [UIColor clearColor];
+        view.tintColor = [UIColor clearColor];
+        view.bounds = CGRectZero;
+    }
+    
+    //获取UITextSelectionView
+    //解决双光标问题
+    Class Cls_selectionView = NSClassFromString(@"UITextSelectionView");
+    if (view && [view isKindOfClass:[Cls_selectionView class]]) {
+        view.backgroundColor = [UIColor clearColor];
+        view.tintColor = [UIColor clearColor];
+        view.hidden = YES;
+    }
+}
 
 #pragma mark - Private
 
