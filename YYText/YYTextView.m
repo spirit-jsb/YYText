@@ -3728,6 +3728,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
   if (@available(iOS 13.0, *)) {
     if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
       [self _commitUpdate];
+      [self _commitPlaceholderUpdate];
     }
   }
   else {
