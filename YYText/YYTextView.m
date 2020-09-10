@@ -207,28 +207,28 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 @synthesize selectionAffinity = _selectionAffinity;
 
 - (void)addSubview:(UIView *)view {
-    [super addSubview:view];
-    if(view &&
-       ([view isKindOfClass:NSClassFromString(@"UITextSelectionView")] || [view isKindOfClass:NSClassFromString(@"UISelectionGrabberDot")])) {
-        view.hidden = YES;
-    }
-    
-    //解决蓝点问题
-    Class Cls_selectionGrabberDot = NSClassFromString(@"UISelectionGrabberDot");
-    if (view && [view isKindOfClass:[Cls_selectionGrabberDot class]]) {
-        view.backgroundColor = [UIColor clearColor];
-        view.tintColor = [UIColor clearColor];
-        view.bounds = CGRectZero;
-    }
-    
-    //获取UITextSelectionView
-    //解决双光标问题
-    Class Cls_selectionView = NSClassFromString(@"UITextSelectionView");
-    if (view && [view isKindOfClass:[Cls_selectionView class]]) {
-        view.backgroundColor = [UIColor clearColor];
-        view.tintColor = [UIColor clearColor];
-        view.hidden = YES;
-    }
+  [super addSubview:view];
+  if(view &&
+     ([view isKindOfClass:NSClassFromString(@"UITextSelectionView")] || [view isKindOfClass:NSClassFromString(@"UISelectionGrabberDot")])) {
+    view.hidden = YES;
+  }
+  
+  //解决蓝点问题
+  Class Cls_selectionGrabberDot = NSClassFromString(@"UISelectionGrabberDot");
+  if (view && [view isKindOfClass:[Cls_selectionGrabberDot class]]) {
+    view.backgroundColor = [UIColor clearColor];
+    view.tintColor = [UIColor clearColor];
+    view.bounds = CGRectZero;
+  }
+  
+  //获取UITextSelectionView
+  //解决双光标问题
+  Class Cls_selectionView = NSClassFromString(@"UITextSelectionView");
+  if (view && [view isKindOfClass:[Cls_selectionView class]]) {
+    view.backgroundColor = [UIColor clearColor];
+    view.tintColor = [UIColor clearColor];
+    view.hidden = YES;
+  }
 }
 
 #pragma mark - Private
@@ -3725,15 +3725,18 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
   [super traitCollectionDidChange:previousTraitCollection];
   
-  if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
-    [self _commitUpdate];
+  if (@available(iOS 13.0, *)) {
+    if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+      [self _commitUpdate];
+    }
+  }
+  else {
+    // Fallback on earlier versions
   }
 }
 #endif
 
 @end
-
-
 
 @interface YYTextView(IBInspectableProperties)
 @end

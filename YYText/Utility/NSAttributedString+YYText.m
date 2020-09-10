@@ -988,7 +988,7 @@ return style. _attr_;
 }
 
 - (void)yy_setColor:(UIColor *)color range:(NSRange)range {
-    [self yy_setAttribute:(id)kCTForegroundColorAttributeName value:(id)color.CGColor range:range];
+//    [self yy_setAttribute:(id)kCTForegroundColorAttributeName value:(id)color.CGColor range:range];
     [self yy_setAttribute:NSForegroundColorAttributeName value:color range:range];
 }
 
